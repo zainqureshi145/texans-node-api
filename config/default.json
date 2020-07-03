@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://zain:cydia@texans-burger.irutt.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    "jwtSecret": "mysecretstring"
+}

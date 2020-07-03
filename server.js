@@ -1,10 +1,18 @@
 const express = require('express');
+const connectDB = require('./config/db')
 
 const app = express();
 
+// Connect to Database
+connectDB();
+
+//Middleware
+
+app.use(express.json({extended: false}));
+
 app.get('/', (request, response) => response.json({msg: 'Welcome to texans-burger-api...'}));
 
-//Define Routes a.k.a. endpoints
+// Define Routes a.k.a. endpoints
 
 app.use('/api/users', require('./routes/users'));
 app.use('/api/contacts', require('./routes/contacts'));
