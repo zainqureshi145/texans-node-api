@@ -21,7 +21,9 @@ const User = require('../models/Users');
 router.post('/', [
     body('name', 'Name is required').not().isEmpty(),
     body('email', 'Please enter a valid email').isEmail(),
-    body('password', 'Password length must be 5 characters or more').isLength({min: 5})
+    body('password', 'Password length must be 5 characters or more').isLength({min: 5}),
+    body('phone', 'Phone number is required').not().isEmpty(),
+    body('address', 'Address is required').not().isEmpty()
 ], 
 async (request, response) => {
     const errors = validationResult(request);
@@ -30,7 +32,7 @@ async (request, response) => {
     }
     //request.body should have name, pass, and email
     //Destructuring is used to pull out information
-    const {name, email, password} = request.body;
+    const {name, email, password, phone, address} = request.body;
 
     try {
         //Check existing user
@@ -41,7 +43,9 @@ async (request, response) => {
         user = new User({
             name: name,
             email: email,
-            password: password 
+            password: password,
+            phone: phone,
+            address: address
         });
         
         //Before inserting password into database, we need to encrypt it

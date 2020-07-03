@@ -17,6 +17,10 @@ app.get('/', (request, response) => response.json({msg: 'Welcome to texans-burge
 app.use('/api/users', require('./routes/users'));
 app.use('/api/contacts', require('./routes/contacts'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/menu', require('./routes/menu'));
+app.use('/api/order', require('./routes/order'));
+app.use('/api/order/admin', require('./routes/order'));
+
 
 const PORT = process.env.PORT || 5000;
 
