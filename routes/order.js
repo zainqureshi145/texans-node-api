@@ -6,27 +6,6 @@ const Menu = require('../models/Menu');
 const User = require('../models/Users');
 const Order = require('../models/Orders');
 
-// @route        GET    api/order
-// @desc         GET all Orders
-// @access       Private
-
-// router.get('/', authenticate, async (request, response) => {
-//     try {
-//         const order = await Order.find({}, function(error, result) {
-//             if(error){
-//                 console.log(error);
-//             }
-//             else{
-//                 response.json(result);
-//             }
-//         });
-//     } catch (error) {
-//         console.error(error.message);
-//         response.status(500).send('Server Error');
-//     }
-// });
-
-
 
 router.get('/', authenticate, async (request, response) => {
     try {
@@ -84,6 +63,33 @@ async (request, response) => {
 
         const order = await newOrder.save();
         response.json(order);
+    } catch (error) {
+        console.error(error.message);
+        response.status(500).send('Server Error');
+    }
+});
+
+
+
+// @route        DELETE    api/order/:id
+// @desc         Delete Order
+// @access       Private
+
+router.delete('/:id', authenticate, async (request, response) => {
+    try {
+        let order = await Order.findById(request.params.id);
+
+        if(!order) return response.status(404).json({msg: 'Order not found'});
+
+        //Make sure user owns order
+        if(order.user.toString() !== request.user.id){
+            return response.status(401).json({msg: 'Not authorized'});
+        }
+
+        await Order.findByIdAndRemove(request.params.id);
+
+            response.json({msg: 'Order removed'});
+
     } catch (error) {
         console.error(error.message);
         response.status(500).send('Server Error');
