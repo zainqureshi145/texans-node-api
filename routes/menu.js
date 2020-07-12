@@ -35,6 +35,7 @@ router.post('/', [
     authenticate,
     [
         body('name', 'Name is required').not().isEmpty(),
+        body('tag', 'Tag (food catagory) is required').not().isEmpty(),
         body('price', 'Price is required').not().isEmpty()
     ]
 ], 
@@ -44,11 +45,12 @@ async (request, response) => {
         return response.status(400).json({errors: errors.array()});
     }
 
-    const {name, description, price, size, spice, meat} = request.body;
+    const {tag, name, description, price, size, spice, meat} = request.body;
 
     try {
         const newMenu = new Menu({
             _id: mongoose.Types.ObjectId(),
+            tag,
             name,
             description,
             price,
@@ -72,9 +74,10 @@ async (request, response) => {
 // @access       Private
 
 router.put('/:id',authenticate, async (request, response) => {
-    const {name, description, price, size, spice, meat} = request.body;
+    const {tag, name, description, price, size, spice, meat} = request.body;
     //Build a menu object
     const menuFileds = {};
+    if(tag) menuFileds.tag = tag;
     if(name) menuFileds.name = name;
     if(description) menuFileds.description = description;
     if(price) menuFileds.price = price;

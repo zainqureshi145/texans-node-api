@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 const MenuSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    tag:{
+        type: String
+    },
     name: {
         type: String,
         require: true
@@ -11,7 +14,7 @@ const MenuSchema = mongoose.Schema({
         required: false
     },
     price: {
-        type: String,
+        type: Number,
         required: true
     },
     size: {
